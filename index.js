@@ -42,14 +42,12 @@ App.get("/notes/:id", (request, response, next) => {
       // response.status(400).send({ error: "malformatted id" });
     });
 });
-App.delete("/notes/:id", (request, response) => {
-  const currentid = Number(request.params.id);
-  notes = notes.filter((note) => note.id !== currentid);
-  // console.log(currentid);
-  // const thisNote = notes.find((note) => note.id === currentid);
-
-  response.status(204).end();
-  // .json({ error: 404, message: `there is no note with id ${currentid}` });
+App.delete("/api/notes/:id", (request, response, next) => {
+  Note.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 App.post("/notes/", (request, response) => {
   let myIncomingData = request.body;
@@ -59,9 +57,7 @@ App.post("/notes/", (request, response) => {
   // response.status(204).end();
   response.status(201).json(myIncomingData);
 });
-// App.use((request, response, next) => {
-//   response.status(404).send("<h1> No Project found for this request</h1>");
-// });
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
