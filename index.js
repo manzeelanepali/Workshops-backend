@@ -22,7 +22,7 @@ App.get("/", (request, response) => {
 });
 
 const notes = [];
-App.get("/notes", (request, response) => {
+App.get("/api/notes", (request, response) => {
   Note.find().then((result) => response.json(result));
   // response.json(notes);
 });
@@ -49,15 +49,25 @@ App.delete("/api/notes/:id", (request, response, next) => {
     })
     .catch((error) => next(error));
 });
-App.post("/notes/", (request, response) => {
-  let myIncomingData = request.body;
-  myIncomingData.id = notes.length + 1;
-  notes.push(myIncomingData);
-  // console.log(myIncomingData);
-  // response.status(204).end();
-  response.status(201).json(myIncomingData);
+
+console.log(request.body);
+App.post("/api/notes", (request, response, next) => {
+  const body = request.body;
+  console.log(body, "this is body");
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+    date: new Date(),
+  });
+  console.log(note);
+  note.save().then((savednotes) => {
+    response.json(savednotes);
+  });
 });
+
 // App.post("/api/notes", (request, response) => {
+//   console.log("I sm 9");
 //   const body = request.body;
 
 //   if (body.content === undefined) {
