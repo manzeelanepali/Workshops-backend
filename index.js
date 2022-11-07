@@ -57,6 +57,20 @@ App.post("/notes/", (request, response) => {
   // response.status(204).end();
   response.status(201).json(myIncomingData);
 });
+App.put("/notes/:id", (request, response, next) => {
+  const body = request.body;
+
+  const note = {
+    content: body.content,
+    important: body.important,
+  };
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then((updatedNote) => {
+      response.json(updatedNote);
+    })
+    .catch((error) => next(error));
+});
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
