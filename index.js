@@ -1,6 +1,7 @@
 const { response } = require("express");
 const express = require("express");
 const cors = require("cors");
+const Note = require("./models/note");
 const { request } = require("http");
 const App = express();
 App.use(cors());
@@ -16,32 +17,14 @@ App.use((request, response, next) => {
   next();
 });
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2022-1-17T17:30:31.098Z",
-    important: false,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    date: "2022-1-17T18:39:34.091Z",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2022-1-17T19:20:14.298Z",
-    important: true,
-  },
-];
-
 App.get("/", (request, response) => {
   response.send("Hello woorld there");
 });
+
+const notes = [];
 App.get("/notes", (request, response) => {
-  response.json(notes);
+  Note.find().then((result) => response.json(result));
+  // response.json(notes);
 });
 App.get("/notes/:id", (request, response) => {
   const currentid = Number(request.params.id);
