@@ -26,17 +26,21 @@ App.get("/notes", (request, response) => {
   Note.find().then((result) => response.json(result));
   // response.json(notes);
 });
-App.get("/notes/:id", (request, response) => {
-  const currentid = Number(request.params.id);
-  console.log(currentid);
-  const thisNote = notes.find((note) => note.id === currentid);
-  if (thisNote) {
-    response.json(thisNote);
-  } else {
-    response
-      .status(404)
-      .json({ error: 404, message: `there is no note with id ${currentid}` });
-  }
+App.get("/notes/:id", (request, response, next) => {
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      next(error);
+      // response.status(500).end();
+      // response.status(400).send({ error: "malformatted id" });
+    });
 });
 App.delete("/notes/:id", (request, response) => {
   const currentid = Number(request.params.id);
@@ -58,6 +62,18 @@ App.post("/notes/", (request, response) => {
 // App.use((request, response, next) => {
 //   response.status(404).send("<h1> No Project found for this request</h1>");
 // });
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+// this has to be the last loaded middleware.
+App.use(errorHandler);
 const PORT = process.env.PORT || "3001";
 
 App.listen(PORT, () => {
