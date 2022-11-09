@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-let url;
-if (process.env.NODE_ENV === "DEV") {
-  url = process.env.MONGODB_URI_PROD;
-} else {
-  process.env.NODE_Env.MONGODB_URI_DEV;
-}
+
+const url = process.env.MONGODB_URI;
 
 console.log("connecting to", url);
 

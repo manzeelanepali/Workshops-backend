@@ -23,7 +23,10 @@ App.get("/", (request, response) => {
 
 const notes = [];
 App.get("/api/notes", (request, response) => {
-  Note.find().then((result) => response.json(result));
+  Note.find().then((result) => {
+    console.log(result, "this is ");
+    response.json(result);
+  });
   // response.json(notes);
 });
 App.get("/notes/:id", (request, response, next) => {

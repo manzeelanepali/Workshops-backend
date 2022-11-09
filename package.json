@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "startDev": "NODE_ENV=DEV node index.js",
+    "startProd": "NODE_ENV=PROD node index.js",
     "build:ui": " rm -rf build && cd ../Workshops/form && npm run build && cp -r build ../../WorkshopsBack",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
