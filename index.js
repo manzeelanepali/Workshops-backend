@@ -98,7 +98,11 @@ App.put("/notes/:id", (request, response, next) => {
     important: body.important,
   };
 
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  Note.findByIdAndUpdate(request.params.id, note, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
     .then((updatedNote) => {
       response.json(updatedNote);
     })
