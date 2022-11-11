@@ -64,9 +64,12 @@ App.post("/api/notes", (request, response, next) => {
     date: new Date(),
   });
   console.log(note);
-  note.save().then((savednotes) => {
-    response.json(savednotes);
-  });
+  note
+    .save()
+    .then((savednotes) => {
+      response.json(savednotes);
+    })
+    .catch((error) => next(error));
 });
 
 // App.post("/api/notes", (request, response) => {
@@ -107,6 +110,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);
