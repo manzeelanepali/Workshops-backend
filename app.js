@@ -103,7 +103,8 @@ App.put("/notes/:id", (request, response, next) => {
     })
     .catch((error) => next(error));
 });
-App.use(errorHandler);
+App.use(middleware.unknownEndpoint);
+
+App.use(middleware.errorHandler);
 
 // this has to be the last loaded middleware.
-App.use(errorHandler);
