@@ -8,14 +8,6 @@ App.use(cors());
 App.use(express.json());
 App.use(express.static("build"));
 //  using middleware )
-App.use((request, response, next) => {
-  console.log("Method:", request.method);
-  console.log("path:", request.path);
-  console.log("This is middlewear");
-  response.someThis = "Hello world ";
-
-  next();
-});
 
 App.get("/", (request, response) => {
   response.send("Hello woorld there");
@@ -108,18 +100,6 @@ App.put("/notes/:id", (request, response, next) => {
     })
     .catch((error) => next(error));
 });
-
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  } else if (error.name === "ValidationError") {
-    return response.status(400).json({ error: error.message });
-  }
-
-  next(error);
-};
 
 // this has to be the last loaded middleware.
 App.use(errorHandler);
