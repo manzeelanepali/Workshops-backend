@@ -45,7 +45,7 @@ test("a specific note is within the returned notes", async () => {
   const contents = response.body.map((r) => r.content);
   expect(contents).toContain("Browser can execute only Javascript");
 });
-test("a valid note can be added", async () => {
+test.only("a valid note can be added", async () => {
   const newNote = {
     content: "async/await simplifies making async calls",
     important: true,
