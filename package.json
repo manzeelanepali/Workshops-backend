@@ -13,7 +13,7 @@
     "logs:prod": "heroku logs --tail",
     "dev": "nodemon index.js",
     "lint": "eslint .",
-    "test": "jest --verbose"
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "keywords": [],
   "author": "",
