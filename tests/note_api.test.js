@@ -9,7 +9,7 @@ test("notes are returned as json", async () => {
     .get("/api/notes")
     .expect(200)
     .expect("Content-Type", /application\/json/);
-});
+}, 100000);
 
 afterAll(() => {
   mongoose.connection.close();
