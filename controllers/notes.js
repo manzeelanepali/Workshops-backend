@@ -28,8 +28,13 @@ notesRouter.post("/", async (request, response, next) => {
     date: new Date(),
   });
 
-  const newNote = await note.save();
-  response.status(201).json(newNote);
+  try {
+    const newNote = await note.save();
+
+    response.status(201).json(newNote);
+  } catch (error) {
+    next(error);
+  }
   // .then((savedNote) => {
   //   response.status(201).json(savedNote);
   // })
