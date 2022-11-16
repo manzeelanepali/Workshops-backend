@@ -36,6 +36,9 @@
     "prettier": "^2.7.1"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "verbose": true,
+    "testTimeout": 100000
+  
   }
 }
