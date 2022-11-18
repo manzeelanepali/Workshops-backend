@@ -16,11 +16,11 @@ content-type: application/json
     "userId": "63771f602a7a8563b8c7cf7a"
 }
 ### 
-POST http://localhost:3001/api/users//
+POST http://localhost:3001/api/users/
 content-type: application/json
 {
     "username": "heyheyheyeh",
     "name": "sunaina",
-    "passwordHash": "dsnbdhhb"
+    "password": "root"
 }
  
