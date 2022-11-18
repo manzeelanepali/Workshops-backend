@@ -40,7 +40,7 @@ describe("when there is initially one user in db", () => {
     expect(usernames).toContain(newUser.username);
   });
 
-  test("creation fails with proper statuscode and message if username already taken", async () => {
+  test.only("creation fails with proper statuscode and message if username already taken", async () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
@@ -49,16 +49,15 @@ describe("when there is initially one user in db", () => {
       password: "salainen",
     };
 
-    await api
+    const result = await api
       .post("/api/users")
       .send(newUser)
-      .expect(201)
+      .expect(400)
       .expect("Content-Type", /application\/json/);
 
-    const usersAtEnd = await helper.usersInDb();
-    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
+    expect(result.body.error).toContain("username must be unique");
 
-    const usernames = usersAtEnd.map((u) => u.username);
-    expect(usernames).toContain(newUser.username);
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
   });
 });
