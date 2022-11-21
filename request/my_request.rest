@@ -11,9 +11,10 @@ POST http://localhost:3001/api/users//
 content-type: application/json
 
 {
-    "username": "stessful",
-    "name" : "sunaina synagboo",
-    "password": "63771"
+    "username": "mluukkai",
+   "password": "salainen",
+    "name" : "sunaina synagboo"
+    
 }
 
 
@@ -33,6 +34,6 @@ POST http://localhost:3001/api/login/
 content-type: application/json
 
 {
-   "username": "tejFellow",
-   "password": "root"
+   "username": "mluukkai",
+   "password": "salainen"
 }
