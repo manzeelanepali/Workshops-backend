@@ -8,6 +8,7 @@ const { request } = require("http");
 const { errorHandler } = require("./utils/middleware");
 const notesRouter = require("./controllers/notes");
 const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
 const App = express();
 App.use(cors());
 App.use(express.json());
@@ -15,6 +16,8 @@ App.use(express.static("build"));
 //  using middleware )
 App.use(middleware.requestLogger);
 App.use("/api/notes", notesRouter);
+
+App.use("/api/login", loginRouter);
 
 App.use("/api/users", usersRouter);
 

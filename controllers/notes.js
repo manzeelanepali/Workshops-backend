@@ -24,25 +24,29 @@ notesRouter.get("/:id", (request, response, next) => {
 
 notesRouter.post("/", async (request, response, next) => {
   const body = request.body;
-  // if (!body.content) {
-  //   return response.status(400);
-  // } else {
-  const user = await User.findById(body.userId);
-  const note = new Note({
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
-    user: user._id,
-  });
+  if (!body.content) {
+    return response.status(400);
+  } else {
+    const userId = body.userId;
+    console.log("this is userid5", userId);
+    const user = await User.findById(userId);
+    const note = new Note({
+      content: body.content,
+      important: body.important || false,
+      date: new Date(),
+      user: user._id,
+    });
+    console.log(note);
 
-  try {
-    const newNote = await note.save();
-    user.notes.concat(newNote._id);
-    user.save();
+    try {
+      const newNote = await note.save();
+      user.notes.concat(newNote._id);
+      user.save();
 
-    response.status(201).json(newNote);
-  } catch (error) {
-    next(error);
+      response.status(201).json(newNote);
+    } catch (error) {
+      next(error);
+    }
   }
 });
 

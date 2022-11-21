@@ -7,20 +7,32 @@ GET  http://localhost:3001/api/users/
 DELETE  http://localhost:3001/notes/1
 
 ### 
+POST http://localhost:3001/api/users//
+content-type: application/json
+
+{
+    "username": "stessful",
+    "name" : "sunaina synagboo",
+    "password": "63771"
+}
+
+
+
+### 
 POST http://localhost:3001/api/notes//
 content-type: application/json
 
 {
     "content": "heythereManjssf",
     "important" : true,
-    "userId": "63771f602a7a8563b8c7cf7a"
+    "userId": "637b1741ff90a04532d5266f"
 }
+
 ### 
-POST http://localhost:3001/api/users/
+POST http://localhost:3001/api/login//
 content-type: application/json
+
 {
-    "username": "heyheyheyeh",
-    "name": "sunaina",
-    "password": "root"
+   "username": "tejfeloow",
+   "password": "root"
 }
- 

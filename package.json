@@ -11,7 +11,7 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
     "lint": "eslint .",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --watch"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +40,6 @@
   "jest": {
     "testEnvironment": "node",
     "verbose": true,
-    "testTimeout": 100000
+    "testTimeout": 10000
   }
 }

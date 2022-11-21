@@ -24,7 +24,6 @@ describe("when there is initially some notes saved", () => {
 
   test("all notes are returned", async () => {
     const response = await api.get("/api/notes");
-
     expect(response.body).toHaveLength(helper.initialNotes.length);
   });
 
@@ -70,9 +69,14 @@ describe("viewing a specific note", () => {
 
 describe("addition of a new note", () => {
   test("succeeds with valid data", async () => {
+    const users = await helper.usersInDb();
+    const user = users[0];
+    console.log("this is user", user);
+    console.log("this is manji", user);
     const newNote = {
       content: "async/await simplifies making async calls",
       important: true,
+      userId: user.id,
     };
 
     await api
