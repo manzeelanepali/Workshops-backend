@@ -52,7 +52,7 @@ notesRouter.post("/", async (request, response, next) => {
       content: body.content,
       important: body.important || false,
       date: new Date(),
-      user: user.id,
+      user: user._id,
     });
     console.log(note);
 
