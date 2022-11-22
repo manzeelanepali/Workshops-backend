@@ -90,7 +90,7 @@ describe("addition of a new note", () => {
 
     const contents = notesAtEnd.map((n) => n.content);
     expect(contents).toContain("async/await simplifies making async calls");
-  });
+  }, 10000);
 
   describe("deletion of a note", () => {
     test("succeeds with status code 204 if id is valid", async () => {

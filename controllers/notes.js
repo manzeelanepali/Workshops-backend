@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const notesRouter = require("express").Router();
 const Note = require("../models/note");
 const User = require("../models/user");
@@ -22,19 +23,36 @@ notesRouter.get("/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+
 notesRouter.post("/", async (request, response, next) => {
   const body = request.body;
+
+  const token = getTokenFrom(request);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
+  console.log(" This is a decoded Token ", decodedToken);
+  const user = await User.findById(decodedToken.id);
+  console.log(" This is my user", user);
+
   if (!body.content) {
     return response.status(400);
   } else {
-    const userId = body.userId;
-    console.log("this is userid5", userId);
-    const user = await User.findById(userId);
+    const currentUser = await User.findById(user._id);
+    console.log("this is user", currentUser);
     const note = new Note({
       content: body.content,
       important: body.important || false,
       date: new Date(),
-      user: user._id,
+      user: user.id,
     });
     console.log(note);
 
@@ -55,10 +73,11 @@ notesRouter.post("/", async (request, response, next) => {
 // })
 // .catch((error) => next(error));
 
-notesRouter.delete("/:id", (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
+notesRouter.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  await Note.findByIdAndRemove(request.params.id)
     .then(() => {
-      response.status(204).end();
+      res.status(204).end();
     })
     .catch((error) => next(error));
 });
